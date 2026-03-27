@@ -12,6 +12,28 @@
 
 const fetch = require('node-fetch');
 
+/**
+ * Apps Script devuelve un redirect 302 en POSTs.
+ * node-fetch lo sigue cambiando el método a GET, lo que rompe doPost().
+ * Esta función sigue el redirect manualmente como POST.
+ */
+async function postToAppsScript(url, bodyObj) {
+  const opts = {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(bodyObj),
+    redirect: 'manual',
+  };
+  const resp = await fetch(url, opts);
+  if (resp.status >= 300 && resp.status < 400) {
+    const location = resp.headers.get('location');
+    if (location) {
+      return fetch(location, { ...opts, redirect: 'manual' });
+    }
+  }
+  return resp;
+}
+
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -82,12 +104,7 @@ module.exports = async function handler(req, res) {
       const raw  = await getRawBody(req);
       const body = JSON.parse(raw.toString());
 
-      const resp = await fetch(APPS_SCRIPT_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ action: 'create', ...body }),
-        redirect: 'follow',
-      });
+      const resp = await postToAppsScript(APPS_SCRIPT_URL, { action: 'create', ...body });
       const data = await resp.json();
       res.status(data.error ? 500 : 200).json(data);
     } catch (e) {
@@ -113,17 +130,12 @@ module.exports = async function handler(req, res) {
 
       const filename = refId ? `${refId}_${file.filename}` : file.filename;
 
-      const resp = await fetch(APPS_SCRIPT_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          action:      'upload',
-          itemId,
-          filename,
-          contentType: file.contentType,
-          fileBase64:  file.data.toString('base64'),
-        }),
-        redirect: 'follow',
+      const resp = await postToAppsScript(APPS_SCRIPT_URL, {
+        action:      'upload',
+        itemId,
+        filename,
+        contentType: file.contentType,
+        fileBase64:  file.data.toString('base64'),
       });
       const data = await resp.json();
       res.status(data.error ? 500 : 200).json(data);
