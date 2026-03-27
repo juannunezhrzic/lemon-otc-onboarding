@@ -18,18 +18,17 @@ const fetch = require('node-fetch');
  * Esta función sigue el redirect manualmente como POST.
  */
 async function postToAppsScript(url, bodyObj) {
-  const opts = {
+  // POST to /exec — Apps Script processes doPost() and returns a 302
+  // whose Location contains the encoded response. Follow it with GET.
+  const resp = await fetch(url, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify(bodyObj),
     redirect: 'manual',
-  };
-  const resp = await fetch(url, opts);
+  });
   if (resp.status >= 300 && resp.status < 400) {
     const location = resp.headers.get('location');
-    if (location) {
-      return fetch(location, { ...opts, redirect: 'manual' });
-    }
+    if (location) return fetch(location, { method: 'GET', redirect: 'follow' });
   }
   return resp;
 }
