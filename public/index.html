@@ -172,7 +172,7 @@ select option{background:#111;color:var(--text);}
 <section class="hero">
   <div class="hero-eye"><div class="hero-dot"></div><span>Account opening</span></div>
   <h1 style="font-family:'PPNeueMachina',sans-serif;font-weight:800;color:#ffffff;letter-spacing:-0.04em;">Corporate onboarding</h1>
-  <p>Fill in your company's details to start operating in Lemon's OTC market.</p>
+  <p>Fill in your company's details to start operating in Lemon's OTC market. Fields marked with <span style="color:var(--greent);font-weight:700;">✶</span> are required.</p>
 </section>
 
 <!-- PROGRESS -->
@@ -188,19 +188,19 @@ select option{background:#111;color:var(--text);}
 <div class="gl">Company information</div>
 
 <div class="fc" id="fc1"><div class="fi">
-  <div class="ft"><div><div class="fl">Corporate name</div><div class="fh">Enter the company's legal name exactly as it appears in its bylaws.</div></div><div class="fn">01</div></div>
+  <div class="ft"><div><div class="fl">Corporate name <span class="rq">✶</span></div><div class="fh">Enter the company's legal name exactly as it appears in its bylaws.</div></div><div class="fn">01</div></div>
   <input type="text" id="f1" maxlength="255" placeholder="Company Inc." required/>
   <div class="cc"><span id="c1">0</span> / 255</div><div class="fe">This field is required.</div>
 </div></div>
 
 <div class="fc" id="fc2"><div class="fi">
-  <div class="ft"><div><div class="fl">Business activity</div><div class="fh">Please describe the company's business activity.</div></div><div class="fn">02</div></div>
+  <div class="ft"><div><div class="fl">Business activity <span class="rq">✶</span></div><div class="fh">Please describe the company's business activity.</div></div><div class="fn">02</div></div>
   <textarea id="f2" maxlength="2000" placeholder="Detailed description of the company's business activity..." required></textarea>
   <div class="cc"><span id="c2">0</span> / 2000</div><div class="fe">This field is required.</div>
 </div></div>
 
 <div class="fc" id="fc3"><div class="fi">
-  <div class="ft"><div><div class="fl">Sworn statement – Reporting entity</div><div class="fh">Please indicate whether the company is a reporting entity pursuant to Section 20 of Law 25,246. Should this status change, the company undertakes to notify Lemon Cash of such change.</div></div><div class="fn">03</div></div>
+  <div class="ft"><div><div class="fl">Sworn statement – Reporting entity <span class="rq">✶</span></div><div class="fh">Please indicate whether the company is a reporting entity pursuant to Section 20 of Law 25,246. Should this status change, the company undertakes to notify Lemon Cash of such change.</div></div><div class="fn">03</div></div>
   <select id="f3" required>
     <option value="" disabled selected>Select an option</option>
     <option value="Yes, it is a reporting entity">Yes, it is a reporting entity</option>
@@ -230,13 +230,13 @@ select option{background:#111;color:var(--text);}
 </div></div>
 
 <div class="fc" id="fc5"><div class="fi">
-  <div class="ft"><div><div class="fl">Company registration date</div><div class="fh">Please enter the date of registration with the public commercial registry of the applicable jurisdiction.</div></div><div class="fn">05</div></div>
+  <div class="ft"><div><div class="fl">Company registration date <span class="rq">✶</span></div><div class="fh">Please enter the date of registration with the public commercial registry of the applicable jurisdiction.</div></div><div class="fn">05</div></div>
   <input type="date" id="f5" lang="en-US"/>
   <div class="fe">This field is required.</div>
 </div></div>
 
 <div class="fc" id="fc6"><div class="fi">
-  <div class="ft"><div><div class="fl">Registration number</div><div class="fh">Please enter the registration number as it appears in the relevant public registry.</div></div><div class="fn">06</div></div>
+  <div class="ft"><div><div class="fl">Registration number <span class="rq">✶</span></div><div class="fh">Please enter the registration number as it appears in the relevant public registry.</div></div><div class="fn">06</div></div>
   <input type="text" id="f6" placeholder="Registry number / folio" required/>
   <div class="fe">This field is required.</div>
 </div></div>
@@ -266,7 +266,7 @@ select option{background:#111;color:var(--text);}
 </div></div>
 
 <div class="fc" id="fc7"><div class="fi">
-  <div class="ft"><div><div class="fl">Have the bylaws or articles of incorporation been amended?</div></div><div class="fn">07</div></div>
+  <div class="ft"><div><div class="fl">Have the bylaws or articles of incorporation been amended? <span class="rq">✶</span></div></div><div class="fn">07</div></div>
   <select id="f7" required>
     <option value="" disabled selected>Select an option</option>
     <option value="No">No</option>
@@ -293,7 +293,7 @@ select option{background:#111;color:var(--text);}
 <div class="gl">Address</div>
 
 <div class="fc" id="fc8"><div class="fi">
-  <div class="ft"><div><div class="fl">Registered address</div><div class="fh">Please enter the legal address registered with the applicable commercial registry. Include: street, number, floor, unit, province/state, country, and zip code.</div></div><div class="fn">08</div></div>
+  <div class="ft"><div><div class="fl">Registered address <span class="rq">✶</span></div><div class="fh">Please enter the legal address registered with the applicable commercial registry. Include: street, number, floor, unit, province/state, country, and zip code.</div></div><div class="fn">08</div></div>
   <input type="text" id="f8" placeholder="123 Main St, Floor 5, Buenos Aires, Argentina, ZIP 1043" required/>
   <div class="fe">This field is required.</div>
 </div></div>
@@ -318,7 +318,7 @@ select option{background:#111;color:var(--text);}
 <div class="gl">Tax ID &amp; contact</div>
 
 <div class="fc" id="fc10"><div class="fi">
-  <div class="ft"><div><div class="fl">Tax ID (CUIT/CDI) number</div><div class="fh">Please enter your Tax ID (CUIT/CDI) number without hyphens.</div></div><div class="fn">10</div></div>
+  <div class="ft"><div><div class="fl">Tax ID (CUIT/CDI) number <span class="rq">✶</span></div><div class="fh">Please enter your Tax ID (CUIT/CDI) number without hyphens.</div></div><div class="fn">10</div></div>
   <input type="text" id="f10" placeholder="30123456789" maxlength="13" required/>
   <div class="fe">This field is required.</div>
 </div></div>
@@ -336,13 +336,13 @@ select option{background:#111;color:var(--text);}
 </div></div>
 
 <div class="fc" id="fc11"><div class="fi">
-  <div class="ft"><div><div class="fl">Phone number</div><div class="fh">Please enter the company's contact phone number.</div></div><div class="fn">11</div></div>
+  <div class="ft"><div><div class="fl">Phone number <span class="rq">✶</span></div><div class="fh">Please enter the company's contact phone number.</div></div><div class="fn">11</div></div>
   <input type="tel" id="f11" placeholder="+54 11 1234-5678" required/>
   <div class="fe">This field is required.</div>
 </div></div>
 
 <div class="fc" id="fc12"><div class="fi">
-  <div class="ft"><div><div class="fl">Email address</div><div class="fh">Please enter a contact email address for the company.</div></div><div class="fn">12</div></div>
+  <div class="ft"><div><div class="fl">Email address <span class="rq">✶</span></div><div class="fh">Please enter a contact email address for the company.</div></div><div class="fn">12</div></div>
   <input type="email" id="f12" placeholder="contact@company.com" required/>
   <div class="fe">This field is required.</div>
 </div></div>
@@ -350,13 +350,13 @@ select option{background:#111;color:var(--text);}
 <div class="gl">Bank account &amp; wallet</div>
 
 <div class="fc" id="fc13"><div class="fi">
-  <div class="ft"><div><div class="fl">Company bank account</div><div class="fh">Please provide a bank account in the company\'s name. Should this account need to be changed, the legal representative must send a duly signed letter to <a href="mailto:compliance@lemon.me">compliance@lemon.me</a>.</div></div><div class="fn">13</div></div>
+  <div class="ft"><div><div class="fl">Company bank account <span class="rq">✶</span></div><div class="fh">Please provide a bank account in the company\'s name. Should this account need to be changed, the legal representative must send a duly signed letter to <a href="mailto:compliance@lemon.me">compliance@lemon.me</a>.</div></div><div class="fn">13</div></div>
   <input type="text" id="f13" placeholder="CBU / IBAN" required/>
   <div class="fe">This field is required.</div>
 </div></div>
 
 <div class="fc" id="fc14"><div class="fi">
-  <div class="ft"><div><div class="fl">Company wallet address and network</div><div class="fh">Please provide the wallet address and network on which the company wishes to receive virtual assets. Should the address need to be changed, the legal representative must send a duly signed letter to <a href="mailto:compliance@lemon.me">compliance@lemon.me</a>.</div></div><div class="fn">14</div></div>
+  <div class="ft"><div><div class="fl">Company wallet address and network <span class="rq">✶</span></div><div class="fh">Please provide the wallet address and network on which the company wishes to receive virtual assets. Should the address need to be changed, the legal representative must send a duly signed letter to <a href="mailto:compliance@lemon.me">compliance@lemon.me</a>.</div></div><div class="fn">14</div></div>
   <input type="text" id="f14" placeholder="0x... — Network: Ethereum / BNB / Polygon" required/>
   <div class="fe">This field is required.</div>
 </div></div>
@@ -364,7 +364,7 @@ select option{background:#111;color:var(--text);}
 <div class="gl">Board of directors &amp; legal representative</div>
 
 <div class="fc" id="fc15"><div class="fi">
-  <div class="ft"><div><div class="fl">Members of the board of directors</div><div class="fh">Please enter the full names, ID numbers, nationalities, and dates of birth of all members of the board of directors (both regular and alternate members).</div></div><div class="fn">15</div></div>
+  <div class="ft"><div><div class="fl">Members of the board of directors <span class="rq">✶</span></div><div class="fh">Please enter the full names, ID numbers, nationalities, and dates of birth of all members of the board of directors (both regular and alternate members).</div></div><div class="fn">15</div></div>
   <textarea id="f15" maxlength="2000" placeholder="John Smith, ID 12345678, American, 01/01/1980 — Regular Director&#10;Jane Doe, ID 87654321, Argentine, 15/06/1975 — Alternate Director" required></textarea>
   <div class="cc"><span id="c15">0</span> / 2000</div><div class="fe">This field is required.</div>
 </div></div>
@@ -394,7 +394,7 @@ select option{background:#111;color:var(--text);}
 </div></div>
 
 <div class="fc" id="fc16"><div class="fi">
-  <div class="ft"><div><div class="fl">Legal representative's full name</div><div class="fh">Please enter the legal representative's full name as it appears on their identity document.</div></div><div class="fn">16</div></div>
+  <div class="ft"><div><div class="fl">Legal representative's full name <span class="rq">✶</span></div><div class="fh">Please enter the legal representative's full name as it appears on their identity document.</div></div><div class="fn">16</div></div>
   <input type="text" id="f16" placeholder="First Last" required/>
   <div class="fe">This field is required.</div>
 </div></div>
@@ -418,7 +418,7 @@ select option{background:#111;color:var(--text);}
 </div></div>
 
 <div class="fc" id="fc18"><div class="fi">
-  <div class="ft"><div><div class="fl">Sworn statement – PEP status</div><div class="fh">Please indicate whether the legal representative is a Politically Exposed Person (PEP).</div></div><div class="fn">18</div></div>
+  <div class="ft"><div><div class="fl">Sworn statement – PEP status <span class="rq">✶</span></div><div class="fh">Please indicate whether the legal representative is a Politically Exposed Person (PEP).</div></div><div class="fn">18</div></div>
   <select id="f18" required>
     <option value="" disabled selected>Select an option</option>
     <option value="Not a PEP">Not a PEP</option>
@@ -430,7 +430,7 @@ select option{background:#111;color:var(--text);}
 <div class="gl">Beneficial owners</div>
 
 <div class="fc" id="fc19"><div class="fi">
-  <div class="ft"><div><div class="fl">Sworn statement of ultimate beneficial owners</div><div class="fh">Please provide the full name, nationality, date of birth, and identity document number of all individuals who hold at least a 10% interest in the company (whether directly or indirectly).</div></div><div class="fn">19</div></div>
+  <div class="ft"><div><div class="fl">Sworn statement of ultimate beneficial owners <span class="rq">✶</span></div><div class="fh">Please provide the full name, nationality, date of birth, and identity document number of all individuals who hold at least a 10% interest in the company (whether directly or indirectly).</div></div><div class="fn">19</div></div>
   <textarea id="f19" maxlength="2000" placeholder="John Smith, American, 01/01/1980, ID 12345678 — 55% ownership" required></textarea>
   <div class="cc"><span id="c19">0</span> / 2000</div><div class="fe">This field is required.</div>
 </div></div>
@@ -460,7 +460,7 @@ select option{background:#111;color:var(--text);}
 </div></div>
 
 <div class="fc" id="fc20"><div class="fi">
-  <div class="ft"><div><div class="fl">Does the company have more than one beneficial owner?</div></div><div class="fn">20</div></div>
+  <div class="ft"><div><div class="fl">Does the company have more than one beneficial owner? <span class="rq">✶</span></div></div><div class="fn">20</div></div>
   <select id="f20" required>
     <option value="" disabled selected>Select an option</option>
     <option value="Yes">Yes</option>
