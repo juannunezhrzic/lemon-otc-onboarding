@@ -90,6 +90,14 @@ function handleCreate(body) {
   sheet.appendRow(row);
   const rowNumber = sheet.getLastRow();
 
+  // Notificación por mail
+  const refId = body.refId || rowNumber;
+  MailApp.sendEmail({
+    to:      'otc@lemon.me,compliance@lemon.me',
+    subject: 'Solicitud de alta cliente OTC iniciada - ID: ' + refId,
+    body:    'Se cargó una solicitud de alta de cliente OTC.\nValidar documentación.',
+  });
+
   return jsonResponse({ itemId: folder.getId() + '::' + rowNumber });
 }
 
