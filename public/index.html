@@ -524,7 +524,7 @@ select option{background:#111;color:var(--text);}
   <div class="succ-ic">✓</div>
   <h2>All done!</h2>
   <p>We've received your corporate OTC onboarding request. The Lemon team will review your documentation and get in touch within the next business days.</p>
-  <div class="succ-id">Monday item ID: <span id="succItemId">—</span></div>
+  <div class="succ-id">Application ID: <span id="succItemId">—</span></div>
 </div>
 
 <!-- TOAST -->
@@ -559,7 +559,7 @@ document.getElementById('f7').addEventListener('change', function() {
 document.getElementById('f20').addEventListener('change', function() {
   document.getElementById('cond-u32-u33').style.display = this.value === 'Yes' ? '' : 'none';
 });
-const REQ = [];
+const REQ = ['f1','f2','f3','f5','f6','f7','f8','f10','f11','f12','f13','f14','f15','f16','f18','f19','f20'];
 
 function updProg() {
   const t = REQ.length;
@@ -714,6 +714,8 @@ document.getElementById('mf').addEventListener('submit', async e => {
   btn.disabled = true; btn.classList.add('loading');
   try {
     const v = collect();
+    const refId = Math.random().toString(36).substring(2, 7).toUpperCase();
+    v.refId = refId;
 
     // 1. Create item + note
     setSubProg(10, 'Creating board item...');
@@ -741,7 +743,7 @@ document.getElementById('mf').addEventListener('submit', async e => {
       document.querySelector('.pw').style.display      = 'none';
       document.querySelector('.sa').style.display      = 'none';
       document.getElementById('subProg').style.display = 'none';
-      document.getElementById('succItemId').textContent = itemId;
+      document.getElementById('succItemId').textContent = refId;
       document.getElementById('ss').classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 600);

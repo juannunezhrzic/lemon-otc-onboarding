@@ -19,6 +19,7 @@ const FOLDER_ID = 'TU_FOLDER_ID_AQUI';  // ID de la carpeta raíz en Google Driv
 // ─────────────────────────────────────────────────────────────────────────────
 
 const HEADERS = [
+  'Reference ID',
   'Timestamp',
   'Corporate name',
   'Business activity',
@@ -76,6 +77,7 @@ function handleCreate(body) {
 
   // Construir fila
   const row = [
+    body.refId || '',
     new Date().toISOString(),
     body.f1  || '', body.f2  || '', body.f3  || '', body.f4  || '',
     body.f5  || '', body.f6  || '', body.f7  || '', body.f8  || '',
