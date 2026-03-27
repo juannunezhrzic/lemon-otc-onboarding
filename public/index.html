@@ -636,7 +636,7 @@ async function createMonday(v) {
 }
 
 // Upload one file via backend
-async function uploadFile(itemId, fileInputId) {
+async function uploadFile(itemId, fileInputId, refId) {
   const input = document.getElementById(fileInputId);
   if (!input || !input.files[0]) return null;
   const file     = input.files[0];
@@ -647,8 +647,8 @@ async function uploadFile(itemId, fileInputId) {
   if (progEl)   progEl.classList.add('show');
   try {
     const fd = new FormData();
-    fd.append('itemId',   itemId);
-    fd.append('columnId', 'files');
+    fd.append('itemId', itemId);
+    fd.append('refId',  refId || '');
     fd.append('file', file, file.name);
     const resp = await fetch(API_BASE + '?action=upload', { method: 'POST', body: fd });
     if (progFill) progFill.style.width = '100%';
@@ -688,13 +688,8 @@ document.getElementById('mf').addEventListener('submit', async e => {
       return inp && inp.files[0];
     });
     if (filesToUpload.length > 0) {
-      let done = 0;
-      for (const id of filesToUpload) {
-        const pct = 10 + Math.round(((done + 0.5) / filesToUpload.length) * 85);
-        setSubProg(pct, `Uploading file ${done + 1} of ${filesToUpload.length}: ${document.getElementById(id).files[0].name}`);
-        await uploadFile(itemId, id);
-        done++;
-      }
+      setSubProg(50, `Uploading ${filesToUpload.length} file${filesToUpload.length > 1 ? 's' : ''} in parallel...`);
+      await Promise.all(filesToUpload.map(id => uploadFile(itemId, id, refId)));
     }
 
     setSubProg(100, 'Done!');

@@ -107,9 +107,11 @@ module.exports = async function handler(req, res) {
       const raw   = await getRawBody(req);
       const parts = parseMultipart(raw, boundary);
 
-      const { itemId, file } = parts;
+      const { itemId, refId, file } = parts;
       if (!itemId) throw new Error('Missing itemId.');
       if (!file)   throw new Error('Missing file.');
+
+      const filename = refId ? `${refId}_${file.filename}` : file.filename;
 
       const resp = await fetch(APPS_SCRIPT_URL, {
         method:  'POST',
@@ -117,7 +119,7 @@ module.exports = async function handler(req, res) {
         body:    JSON.stringify({
           action:      'upload',
           itemId,
-          filename:    file.filename,
+          filename,
           contentType: file.contentType,
           fileBase64:  file.data.toString('base64'),
         }),
