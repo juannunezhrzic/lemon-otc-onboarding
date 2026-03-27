@@ -55,7 +55,9 @@ body{background:var(--bg);color:var(--text);font-family:'Satoshi','DM Sans',sans
 .fw{max-width:700px;margin:0 auto;padding:0 24px;}
 
 /* GROUP LABEL */
-.gl{display:flex;align-items:center;gap:10px;margin:36px 0 12px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--moon);}
+.gl{display:flex;align-items:center;gap:10px;margin:36px 0 12px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--moon);transition:color .3s;}
+.gl.done{color:var(--greent);}
+.gl.done::after{background:rgba(0,240,104,.2);}
 .gl::after{content:'';flex:1;height:1px;background:var(--border);}
 
 /* FIELD CARD */
@@ -185,7 +187,7 @@ select option{background:#111;color:var(--text);}
 <form id="mf" novalidate>
 <div class="fw">
 
-<div class="gl">Company information</div>
+<div class="gl" id="gl-company">Company information</div>
 
 <div class="fc" id="fc1"><div class="fi">
   <div class="ft"><div><div class="fl">Corporate name <span class="rq">✦</span></div><div class="fh">Enter the company's legal name exactly as it appears in its bylaws.</div></div><div class="fn">01</div></div>
@@ -290,7 +292,7 @@ select option{background:#111;color:var(--text);}
 </div></div>
 </div>
 
-<div class="gl">Address</div>
+<div class="gl" id="gl-address">Address</div>
 
 <div class="fc" id="fc8"><div class="fi">
   <div class="ft"><div><div class="fl">Registered address <span class="rq">✦</span></div><div class="fh">Please enter the legal address registered with the applicable commercial registry. Include: street, number, floor, unit, province/state, country, and zip code.</div></div><div class="fn">10</div></div>
@@ -315,7 +317,7 @@ select option{background:#111;color:var(--text);}
   </div>
 </div></div>
 
-<div class="gl">Tax ID &amp; contact</div>
+<div class="gl" id="gl-taxid">Tax ID &amp; contact</div>
 
 <div class="fc" id="fc10"><div class="fi">
   <div class="ft"><div><div class="fl">Tax ID (CUIT/CDI) number <span class="rq">✦</span></div><div class="fh">Please enter your Tax ID (CUIT/CDI) number without hyphens.</div></div><div class="fn">13</div></div>
@@ -347,7 +349,7 @@ select option{background:#111;color:var(--text);}
   <div class="fe">This field is required.</div>
 </div></div>
 
-<div class="gl">Bank account &amp; wallet</div>
+<div class="gl" id="gl-bank">Bank account &amp; wallet</div>
 
 <div class="fc" id="fc13"><div class="fi">
   <div class="ft"><div><div class="fl">Company bank account <span class="rq">✦</span></div><div class="fh">Please provide a bank account in the company\'s name. Should this account need to be changed, the legal representative must send a duly signed letter to <a href="mailto:compliance@lemon.me">compliance@lemon.me</a>.</div></div><div class="fn">17</div></div>
@@ -361,7 +363,7 @@ select option{background:#111;color:var(--text);}
   <div class="fe">This field is required.</div>
 </div></div>
 
-<div class="gl">Board of directors &amp; legal representative</div>
+<div class="gl" id="gl-board">Board of directors &amp; legal representative</div>
 
 <div class="fc" id="fc15"><div class="fi">
   <div class="ft"><div><div class="fl">Members of the board of directors <span class="rq">✦</span></div><div class="fh">Please enter the full names, ID numbers, nationalities, and dates of birth of all members of the board of directors (both regular and alternate members).</div></div><div class="fn">19</div></div>
@@ -427,7 +429,7 @@ select option{background:#111;color:var(--text);}
   <div class="fe">This field is required.</div>
 </div></div>
 
-<div class="gl">Beneficial owners</div>
+<div class="gl" id="gl-ubo">Beneficial owners</div>
 
 <div class="fc" id="fc19"><div class="fi">
   <div class="ft"><div><div class="fl">Sworn statement of ultimate beneficial owners <span class="rq">✦</span></div><div class="fh">Please provide the full name, nationality, date of birth, and identity document number of all individuals who hold at least a 10% interest in the company (whether directly or indirectly).</div></div><div class="fn">26</div></div>
@@ -522,9 +524,18 @@ select option{background:#111;color:var(--text);}
 <!-- SUCCESS -->
 <div class="succ" id="ss">
   <div class="succ-ic">✓</div>
-  <h2>All done!</h2>
-  <p>We've received your corporate OTC onboarding request. The Lemon team will review your documentation and get in touch within the next business days.</p>
-  <div class="succ-id">Application ID: <span id="succItemId">—</span></div>
+  <h2>Application submitted</h2>
+  <p>We've received your corporate OTC onboarding request. Our compliance team will review your documentation and contact you within the next business days.</p>
+  <div class="succ-id">
+    <div style="font-size:10px;color:var(--moon);margin-bottom:8px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;">Your reference ID — save it for enquiries</div>
+    <span id="succItemId" style="font-size:32px;letter-spacing:.16em;font-weight:700;">—</span>
+  </div>
+  <div style="margin-top:24px;font-size:12px;color:var(--moon);text-align:left;max-width:380px;line-height:1.8;">
+    <div style="font-weight:700;color:var(--starlight);margin-bottom:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;">What happens next</div>
+    <div>1 · Our team will verify your documents</div>
+    <div>2 · You'll receive a confirmation email</div>
+    <div>3 · Quote your reference ID for any enquiries</div>
+  </div>
 </div>
 
 <!-- TOAST -->
@@ -567,6 +578,7 @@ function updProg() {
   document.getElementById('pf').style.width = p + '%';
   document.getElementById('plbl').textContent = p + '% complete';
   document.getElementById('pflbl').textContent = f + ' / ' + t + ' fields';
+  if (typeof updateSectionChecks === 'function') updateSectionChecks();
 }
 
 [['f1','c1'],['f2','c2'],['f15','c15'],['f17','c17'],['f19','c19']].forEach(([id,cid]) => {
@@ -578,6 +590,46 @@ document.querySelectorAll('.fc input, .fc textarea, .fc select').forEach(el => {
   const upd = () => { el.value.trim() ? fc.classList.add('done') : fc.classList.remove('done'); updProg(); };
   el.addEventListener('input', upd); el.addEventListener('change', upd);
 });
+
+// Postel's Law: auto-strip hyphens/spaces from CUIT/CDI as user types
+const cuitEl = document.getElementById('f10');
+if (cuitEl) {
+  cuitEl.addEventListener('input', function() {
+    const cur = this.selectionStart;
+    const stripped = this.value.replace(/[-\s]/g, '');
+    if (this.value !== stripped) { this.value = stripped; this.setSelectionRange(cur, cur); }
+  });
+}
+
+// Cognitive Load: blur validation on required fields
+REQ.forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('blur', () => {
+    const fc = el.closest('.fc');
+    if (!fc) return;
+    if (!el.value.trim()) fc.classList.add('err');
+    else { fc.classList.remove('err'); fc.classList.add('done'); }
+  });
+});
+
+// Goal-Gradient Effect: section completion checkmarks
+const SECTION_REQS = {
+  'gl-company': ['f1','f2','f3','f5','f6','f7'],
+  'gl-address':  ['f8'],
+  'gl-taxid':    ['f10','f11','f12'],
+  'gl-bank':     ['f13','f14'],
+  'gl-board':    ['f15','f16','f18'],
+  'gl-ubo':      ['f19','f20'],
+};
+function updateSectionChecks() {
+  Object.entries(SECTION_REQS).forEach(([glId, fields]) => {
+    const gl = document.getElementById(glId);
+    if (!gl) return;
+    const done = fields.every(id => { const e = document.getElementById(id); return e && e.value.trim(); });
+    gl.classList.toggle('done', done);
+  });
+}
 
 function dov(e) { e.preventDefault(); e.currentTarget.classList.add('dov'); }
 function dlv(e) { e.currentTarget.classList.remove('dov'); }
@@ -711,6 +763,7 @@ document.getElementById('mf').addEventListener('submit', async e => {
 });
 
 updProg();
+document.getElementById('f1').focus();
 </script>
 </body>
 </html>
