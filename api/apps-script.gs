@@ -93,7 +93,7 @@ function handleCreate(body) {
   // Notificación por mail
   const refId = body.refId || rowNumber;
   MailApp.sendEmail({
-    to:       'otc@lemon.me,compliance@lemon.me',
+    to:       'otc@lemon.me,compliance@lemon.me,juan.nunez@lemon.me',
     subject:  'Solicitud de alta cliente OTC iniciada - ID: ' + refId,
     body:     'Se cargó una solicitud de alta de cliente OTC.\nValidar documentación: https://drive.google.com/drive/u/0/folders/1JRgqWSIpA4ltzHzLbeWi6Yb-Z3XA7i4M',
     htmlBody: 'Se cargó una solicitud de alta de cliente OTC.<br>Validar <a href="https://drive.google.com/drive/u/0/folders/1JRgqWSIpA4ltzHzLbeWi6Yb-Z3XA7i4M">documentación</a>.',
