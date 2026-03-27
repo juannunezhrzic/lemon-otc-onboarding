@@ -105,7 +105,12 @@ module.exports = async function handler(req, res) {
       const body = JSON.parse(raw.toString());
 
       const resp = await postToAppsScript(APPS_SCRIPT_URL, { action: 'create', ...body });
-      const data = await resp.json();
+      const text = await resp.text();
+      let data;
+      try { data = JSON.parse(text); } catch (_) {
+        console.error('[create] non-JSON response:', text.slice(0, 600));
+        throw new Error('Apps Script returned non-JSON. Check Vercel logs for details.');
+      }
       res.status(data.error ? 500 : 200).json(data);
     } catch (e) {
       console.error('[create]', e.message);
