@@ -16,6 +16,7 @@
 // ─── CONFIGURACIÓN ────────────────────────────────────────────────────────────
 const SHEET_ID  = 'TU_SHEET_ID_AQUI';   // ID del Google Sheet (de la URL)
 const FOLDER_ID = 'TU_FOLDER_ID_AQUI';  // ID de la carpeta raíz en Google Drive
+const MAX_BYTES = 4 * 1024 * 1024;       // mismo límite que el formulario
 // ─────────────────────────────────────────────────────────────────────────────
 
 const HEADERS = [
@@ -95,8 +96,8 @@ function handleCreate(body) {
   MailApp.sendEmail({
     to:       'otc@lemon.me,compliance@lemon.me,juan.nunez@lemon.me',
     subject:  'Solicitud de alta cliente OTC iniciada - ID: ' + refId,
-    body:     'Se cargó una solicitud de alta de cliente OTC.\nValidar documentación: https://drive.google.com/drive/u/0/folders/1JRgqWSIpA4ltzHzLbeWi6Yb-Z3XA7i4M',
-    htmlBody: 'Se cargó una solicitud de alta de cliente OTC.<br>Validar <a href="https://drive.google.com/drive/u/0/folders/1JRgqWSIpA4ltzHzLbeWi6Yb-Z3XA7i4M">documentación</a>.',
+    body:     'Se cargó una solicitud de alta de cliente OTC: ' + (body.f1 || 'Sin nombre') + '.\nValidar documentación: ' + folderUrl,
+    htmlBody: 'Se cargó una solicitud de alta de cliente OTC: ' + (body.f1 || 'Sin nombre') + '.<br>Validar <a href="' + folderUrl + '">documentación</a>.',
   });
 
   return jsonResponse({ itemId: folder.getId() + '::' + rowNumber });
@@ -111,11 +112,27 @@ function handleUpload(body) {
   const folderId = itemId.split('::')[0];
   const folder   = DriveApp.getFolderById(folderId);
 
+  // Sólo se puede subir a carpetas de empresa creadas por handleCreate (hijas de
+  // FOLDER_ID). Sin este control, quien llame al endpoint podría escribir en
+  // cualquier carpeta de Drive a la que tenga acceso la cuenta dueña del script.
+  if (!esHijaDeRaiz_(folder)) throw new Error('Carpeta no permitida');
+  if (bytesDeBase64_(fileBase64) > MAX_BYTES) throw new Error('Archivo demasiado grande');
+
   const bytes = Utilities.base64Decode(fileBase64);
   const blob  = Utilities.newBlob(bytes, contentType || 'application/octet-stream', filename || 'archivo');
   folder.createFile(blob);
 
   return jsonResponse({ success: true });
+}
+
+function esHijaDeRaiz_(folder) {
+  const parents = folder.getParents();
+  while (parents.hasNext()) if (parents.next().getId() === FOLDER_ID) return true;
+  return false;
+}
+
+function bytesDeBase64_(b64) {
+  return Math.floor(b64.length * 3 / 4);
 }
 
 // ── Helper ────────────────────────────────────────────────────────────────────
