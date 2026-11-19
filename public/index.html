@@ -730,6 +730,7 @@ async function uploadFile(itemId, fileInputId, refId) {
     const fd = new FormData();
     fd.append('itemId', itemId);
     fd.append('refId',  refId || '');
+    fd.append('fieldId', fileInputId);
     fd.append('file', file, file.name);
     const resp = await fetch(API_BASE + '?action=upload', { method: 'POST', body: fd });
     if (progFill) progFill.style.width = '100%';

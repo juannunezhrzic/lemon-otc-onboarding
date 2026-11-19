@@ -64,7 +64,9 @@ function handleCreate(body) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
 
   // Asegurar headers en la primera fila
-  if (sheet.getLastRow() === 0 || sheet.getRange(1, 1).getValue() !== 'Timestamp') {
+  // La fila 1 empieza con 'Reference ID' (HEADERS[0]); antes se comparaba con 'Timestamp'
+  // y se insertaba otra fila de títulos en cada envío.
+  if (sheet.getLastRow() === 0 || sheet.getRange(1, 1).getValue() !== HEADERS[0]) {
     sheet.insertRowBefore(1);
     sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
   }
@@ -88,7 +90,9 @@ function handleCreate(body) {
     folderUrl,
   ];
 
-  sheet.appendRow(row);
+  // Sheets interpreta como fórmula lo que empieza con + = - @ (el teléfono "+54 11..."
+  // llegaba como #ERROR!). El apóstrofo lo guarda como texto y evita inyectar fórmulas.
+  sheet.appendRow(row.map(v => (typeof v === 'string' && /^[=+\-@]/.test(v)) ? "'" + v : v));
   const rowNumber = sheet.getLastRow();
 
   // Notificación por mail

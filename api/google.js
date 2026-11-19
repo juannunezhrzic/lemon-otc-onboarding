@@ -128,11 +128,13 @@ module.exports = async function handler(req, res) {
       const raw   = await getRawBody(req);
       const parts = parseMultipart(raw, boundary);
 
-      const { itemId, refId, file } = parts;
+      const { itemId, refId, fieldId, file } = parts;
       if (!itemId) throw new Error('Missing itemId.');
       if (!file)   throw new Error('Missing file.');
 
-      const filename = refId ? `${refId}_${file.filename}` : file.filename;
+      // refId_campo_nombre: así se sabe a qué campo del formulario corresponde cada archivo
+      const campo    = /^u\d+$/.test(fieldId || '') ? `${fieldId}_` : '';
+      const filename = refId ? `${refId}_${campo}${file.filename}` : `${campo}${file.filename}`;
 
       const resp = await postToAppsScript(APPS_SCRIPT_URL, {
         action:      'upload',
