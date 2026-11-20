@@ -90,9 +90,11 @@ function handleCreate(body) {
     folderUrl,
   ];
 
-  // Sheets interpreta como fórmula lo que empieza con + = - @ (el teléfono "+54 11..."
-  // llegaba como #ERROR!). El apóstrofo lo guarda como texto y evita inyectar fórmulas.
-  sheet.appendRow(row.map(v => (typeof v === 'string' && /^[=+\-@]/.test(v)) ? "'" + v : v));
+  // Todo lo que carga el cliente va como texto: lo que empieza con + = - @ Sheets lo toma
+  // como fórmula (el teléfono "+54 11..." llegaba como #ERROR!) y lo que empieza con un
+  // número lo convierte en número (un CBU de 22 dígitos que empieza con 0 perdía el cero
+  // y se redondeaba). El apóstrofo lo guarda tal cual y evita inyectar fórmulas.
+  sheet.appendRow(row.map(v => (typeof v === 'string' && /^[=+\-@0-9]/.test(v)) ? "'" + v : v));
   const rowNumber = sheet.getLastRow();
 
   // Notificación por mail
