@@ -103,7 +103,14 @@ module.exports = async function handler(req, res) {
       const raw  = await getRawBody(req);
       const body = JSON.parse(raw.toString());
 
-      const resp = await postToAppsScript(APPS_SCRIPT_URL, { action: 'create', ...body });
+      // Todo lo que carga el cliente va como texto al Sheet: lo que empieza con + = - @
+      // Sheets lo toma como fórmula (el teléfono llegaba como #ERROR!) y lo que empieza con
+      // un número lo convierte en número (un CBU que empieza con 0 perdía el cero y se
+      // redondeaba). El apóstrofo lo guarda tal cual. Se hace acá y no en el Apps Script
+      // para que estos arreglos se publiquen con un merge, sin tocar el script.
+      const comoTexto = v => (typeof v === 'string' && /^[=+\-@0-9]/.test(v)) ? "'" + v : v;
+      const campos = Object.fromEntries(Object.entries(body).map(([k, v]) => [k, /^f\d+$/.test(k) ? comoTexto(v) : v]));
+      const resp = await postToAppsScript(APPS_SCRIPT_URL, { action: 'create', ...campos });
       const text = await resp.text();
       let data;
       try { data = JSON.parse(text); } catch (_) {
